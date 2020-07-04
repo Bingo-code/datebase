@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="/td_space/css/lr.css"/>
+<script type="text/javascript" src="/td_space/js/jquery.js"></script>
+<script type="text/javascript" src="/td_space/js/layer.js"></script>
+<script type="text/javascript" src="/td_space/js/lr2.js"></script>
+</head>
+<body>
+	
+	<div id="loginRegister">
+		<span class="left chosen">登录</span>
+		<span class="right">注册</span>
+		
+		<div id="login" class="info">
+			<form action="/td_space/lr/login" method="post"
+				onsubmit="return checkPwd()">
+				<input class="name" type="text" name="userName"
+					placeholder="用户名/邮箱/手机号码" th:value="${lUserName}" />
+				<input class="pwd" type="password" name="userPwd" placeholder="密码" />
+				<label class="lInfo" th:text="${lInfo}"></label>
+				<button class="lg" type="submit">登录</button>
+			</form>
+		</div>
+		<div id="register" class="info">
+			<form action="/td_space/lr/register" method="post"
+				onsubmit="return checkRPwd()">
+				<input class="rName" type="text" name="userName"
+					placeholder="用户名/邮箱/手机号码" th:value="${rUserName}" />
+				<input class="rPwd" type="password" name="userPwd" placeholder="密码" />
+				<input class="rAgainPwd" type="password" placeholder="确认密码" />
+				<label class="rInfo" th:text="${rInfo}"></label>
+				<button class="rg" type="submit">注册</button>
+			</form>
+		</div>
+	</div>
+	<style th:if="${info eq 'rInfo'}">
+		#register{
+			display: block;
+		}
+		#login{
+			display: none;
+		}
+	</style>
+	<script th:if="${info eq 'rInfo'}">
+		$("#loginRegister span").removeClass("chosen");
+		$("#loginRegister .right").addClass("chosen");
+	</script>
+</body>
+</html>

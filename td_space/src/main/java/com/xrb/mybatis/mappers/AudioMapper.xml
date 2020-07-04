@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xrb.dao.AudioDao">
+  
+  <resultMap type="com.xrb.entity.Audio" id="AudioResult">
+  	<id property="audioId"  column="audioId"/>
+  	<result property="audioName"  column="audioName"/>
+  	<result property="audioType"  column="audioType"/>
+  	<result property="audioSize"  column="audioSize"/>
+  	<result property="audioShow"  column="audioShow"/>
+  	<result property="audioValid"  column="audioValid"/>
+  	<result property="audioTime"  column="audioTime"/>
+  	<result property="userId"  column="userId"/>
+  </resultMap>
+  
+  <select id="findAudiosIsValid" parameterType="java.lang.String" resultMap="AudioResult">
+  	select * from audioTable where audioValid = 1 and userId = #{userId}
+  </select>
+  
+  <select id="findAudiosIsNotValid" parameterType="java.lang.String" resultMap="AudioResult">
+  	select  (audioId,audioName) from audioTable where audioValid = 0 and userId = #{userId}
+  </select>
+  
+  <select id="findAudiosIsShow" parameterType="java.lang.String" resultMap="AudioResult">
+  	select audioName from audioTable where audioValid = 1 and userId = #{userId} and audioShow = 1
+  </select>
+ 
+  <select id="findAudioById" parameterType="java.lang.String" resultMap="AudioResult">
+  	select audioName from audioTable where audioId = #{audioId}
+  </select>
+  
+  <insert id="addAudio" parameterType="com.xrb.entity.Audio">
+  	insert into audioTable(audioId, audioName, audioType, audioSize, audioTime, userId) values(#{audioId},#{audioName},#{audioType},#{audioSize},#{audioTime},#{userId})
+  </insert>
+  
+  <update id="updateAudio" parameterType="com.xrb.entity.Audio">
+	update audioTable set audioName=#{audioName},audioShow=#{audioShow},audioValid=#{audioValid} where audioId = #{audioId}
+  </update>
+  
+  <update id="renameAudio" parameterType="com.xrb.entity.Audio">
+	update audioTable set audioName=#{audioName} where audioId = #{audioId}
+  </update>
+  
+  <update id="reAudioShow" parameterType="com.xrb.entity.Audio">
+	update audioTable set audioShow=#{audioShow} where audioId = #{audioId}
+  </update>  
+  
+  <delete id="deleteAudio" parameterType="java.lang.String">
+  	delete from audioTable where audioId = #{audioId}
+  </delete>
+
+  
+</mapper>

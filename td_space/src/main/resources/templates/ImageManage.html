@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>视听云端</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="../js/skin/default/layer.css"/>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#main{
+				width: 1200px;
+				min-height: 600px;
+				margin: 0 auto;
+				position: relative;
+			}
+			#main .upload,.batch,.download,.recover{
+				width: 36px;
+				height: 36px;
+				font-size: 14px;
+				line-height: 36px;
+				color: grey;
+				border-radius: 50%;
+				border: 1px solid rgba(0,0,0,0.1);
+			}
+			#main .upload:hover,.batch:hover,.download:hover,.recover:hover{
+				background-color: rgba(0,0,0,0.1);;
+			}
+			#main .upload{
+				position: absolute;
+				left: 920px;
+				top: 6px;
+			}
+			#main .download{
+				position: absolute;
+				left: 980px;
+				top: 6px;
+			}
+			#main .batch{
+				position: absolute;
+				left: 1040px;
+				top: 6px;
+			}
+			#main .recover{
+				position: absolute;
+				left: 1100px;
+				top: 6px;
+			}
+			#header{
+				width: 1200px;
+				height: 50px;
+				
+			}
+			#header h1,h2,div{
+				height: 48px;
+				line-height: 48px;
+				
+				font-weight: lighter;
+				font-family: "楷体";
+				text-align: center;
+			}
+			#header h1{
+				width: 298px;
+				border-radius: 3px;
+				border: 1px solid rgba(0,0,0,0.1);
+				font-size: 32px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			#header h2{
+				width: 598px;
+				border-radius: 3px;
+				border: 1px solid rgba(0,0,0,0.1);
+				font-size: 24px;
+				overflow: hidden;
+				position: absolute;
+				left: 300px;
+				top: 0;
+			}
+			#header div{
+				width: 298px;
+				border-radius: 3px;
+				border: 1px solid rgba(0,0,0,0.1);
+				font-size: 28px;
+				position: absolute;
+				left: 900px;
+				top: 0;
+			}
+			#imageManage{
+				width: 1198px;
+				height: 598px;
+				border-radius: 3px;
+				border: 1px solid rgba(0,0,0,0.1);
+				position: relative;
+				bottom: 0;
+				left: 0;
+			}
+			#imageManage h1{
+				width: 1198px;
+				height: 48px;
+				line-height: 48px;
+				font-size: 24px;
+				text-align: left;
+				position: relative;
+				left: 60px;
+			}
+			
+			#imageTable{
+				width: 1180px;
+				height: 500px;
+				overflow: auto;
+				position: relative;
+				top: 0;
+				left: 10px;
+			}
+			#imageTable::-webkit-scrollbar{
+				width: 5px;
+				height: 5px;
+			}
+			#imageTable::-webkit-scrollbar-thumb{
+				border-radius: 3px;
+				-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+				background:rgba(0,0,0,0.2);
+			}
+			#imageTable::-webkit-scrollbar-track{
+				border-radius: 3px;
+				-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+				background:rgba(0,0,0,0.1);
+			}
+			#imageTable::-webkit-scrollbar{
+				width: 5px;
+				height: 5px;
+			}
+			#chosenFile .checkFile{
+				width: 200px;
+				height: 30px;
+				font-size: 16px;
+				position: absolute;
+				left: 50px;
+				top: 20px;
+			}
+			#imageTable a{
+			color:blue;
+			}
+			#imageTable a:hover{
+				cursor: pointer;
+				color:green;
+			}
+		</style>
+		<script>
+			$(function(){
+				$(".upload").click(function(){
+					layer.open({
+						  type: 1,
+						  title:'选择文件',
+						  area:['300px','200px'],
+						  content: $('#chosenFile'),
+						  closeBtn: false,
+						  btn: ['上传','取消'],
+						  btnAlign: 'c',
+						  shadeClose:true,
+						  yes: function(index, layero){
+							  var formData = new FormData();
+							  var files = $(".checkFile")[0].files;
+							  for(var i=0;i<files.length;i++){
+								  formData.append("uploadFiles",files[i]);
+							  }
+							  $.ajax({
+								  url: "../imageC/addFile",
+								  type: 'post',
+								  cache: false,
+								  data: formData,
+								  processData:false,
+								  contentType:false,
+								  success:function(data){
+									  layer.close(index);
+									  var tips = "";
+									  for(var i=0;i<data.length;i++){
+										  tips += "<div style='width:580px;height:36px;font-size:16px;border:1 solid rgba(0,0,0,0.1);boder-radius:3px'>"+data[i]+"</div>";
+									  }
+									  layer.open({
+										  type: 1,
+										  title:'上传结果',
+										  area:['600px','300px'],
+										  content: tips,
+										  closeBtn: false,
+										  btn: ['确认'],
+										  yes:function(index, layero){
+											  window.location.reload();
+										  }
+										  
+									  })
+								  }
+							  });
+						  }
+						
+					});
+				});
+				$(".rename").each(function(index,domEle){
+					$(domEle).click(function(){
+						
+						var tr = $(this).parent().parent();
+						var oldImageName = tr.find(".imageName").text();
+						var imageId = $(this).parent().attr("imageId");
+						layer.open({
+							  type: 1,
+							  title:'重命名',
+							  area:['300px','200px'],
+							  content: "<input type='text' name='imageName' value='' maxlength = '50' style='width:200px'/>",
+							  closeBtn: false,
+							  btn: ['确定','取消'],
+							  btnAlign: 'c',
+							  yes: function(index, layero){
+								  var imageName =  $(layero).find("input[name=imageName]").val();
+								  
+								  $.ajax({
+									 url:"../imageC/renameImage",
+									 type:"post",
+									 data:{"imageName":imageName,"oldImageName":oldImageName,"imageId":imageId},
+									 success:function(data){
+										 layer.close(index);
+										 window.location.reload(); 
+									 }
+								  });
+							  },
+							  success:function(layero,index){
+								  $(layero).find("input[name=imageName]").val(oldImageName);
+							  }
+							
+						});
+					})
+				});
+				
+				
+				
+			});
+		</script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="header">
+				<h1><a href="../mainC/initShow">视听云端</a></h1>
+				<h2>系统信息</h2>
+				<div>
+					<label th:text="${userName}"></label> | <label><a href="../mainC/quit">退出</a></label>
+				</div>
+			</div>
+			<div id="imageManage">
+				<h1><a>管理我的相片空间</a></h1>
+				<label class="upload">上传</label>
+				<label class="download">下载</label>
+				<label class="batch">批量</label>
+				<label class="recover">回收</label>
+				
+				<div id="imageTable">
+					<table  class="layui-table">
+						<thead>
+							<tr>
+								<td width="8%">序号</td>
+								<td width="33%">相片名称</td>
+								<td width="8%">相片类型</td>
+								<td width="8%">相片大小</td>
+								<td width="8%">首页展示</td>
+								<td width="15%">上传时间</td>
+								<td width="20%">功能</td>
+							</tr>
+						</thead>
+						
+						<tr th:each="image,imageStat:${imageIsValid}">
+							<td th:text="${imageStat.count}"></td>
+							<td  class="imageName" th:text="${image.imageName}"></td>
+							<td th:text="${image.imageType}"></td>
+							<td th:text="${image.imageSize}"></td>
+							<td class="imageShow" th:if="${image.imageShow} eq true">
+								<a th:href="@{reImageShow?imageShow=false&imageId=__${image.imageId}__}">取消展示</a>
+							</td>
+							<td class="imageShow" th:if="${image.imageShow} eq false">
+								<a th:href="@{reImageShow?imageShow=true&imageId=__${image.imageId}__}">首页展示</a>
+							</td>
+							<td th:text="${image.imageTime}"></td>
+							<td th:imageId="${image.imageId}">
+								<a class="rename">重命名</a>
+								<a class="imageValid" th:href="@{deleteImage?imageId=__${image.imageId}__}">删除</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="chosenFile" style="display: none;">
+			<input type="file" multiple="multiple" name="uploadFiles" required class="checkFile" accept=".jpg,.png,.JPG,.PNG,.jpeg,JPEG">
+		</div>
+	</body>
+</html>

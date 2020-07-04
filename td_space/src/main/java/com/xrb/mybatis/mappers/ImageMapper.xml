@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xrb.dao.ImageDao">
+  
+  <resultMap type="com.xrb.entity.Image" id="imageResult">
+  	<id property="imageId"  column="imageId"/>
+  	<result property="imageName"  column="imageName"/>
+  	<result property="imageType"  column="imageType"/>
+  	<result property="imageSize"  column="imageSize"/>
+  	<result property="imageShow"  column="imageShow"/>
+  	<result property="imageValid"  column="imageValid"/>
+  	<result property="imageTime"  column="imageTime"/>
+  	<result property="userId"  column="userId"/>
+  </resultMap>
+  
+  <select id="findImagesIsValid" parameterType="java.lang.String" resultMap="imageResult">
+  	select * from imageTable where imageValid = 1 and userId = #{userId} order by imageName asc
+  </select>
+  
+  <select id="findImagesIsNotValid" parameterType="java.lang.String" resultMap="imageResult">
+  	select  (imageId,imageName) from imageTable where imageValid = 0 and userId = #{userId}
+  </select>
+  
+  <select id="findImagesIsShow" parameterType="java.lang.String" resultMap="imageResult">
+  	select imageName from imageTable where imageValid = 1 and userId = #{userId} and imageShow = 1 order by imageName asc
+  </select>
+ 
+  <select id="findImageById" parameterType="java.lang.String" resultMap="imageResult">
+  	select imageName from imageTable where imageId = #{imageId}
+  </select>
+  
+  <!-- 查分页 -->
+	<select id="queryImages_18" parameterType="java.lang.String" resultMap="imageResult" flushCache="false" useCache="true">
+			select imageName from imageTable where userId = #{userId} and imageValid = 1 and imageShow = 1 order by imageName asc
+	</select>
+  
+  <insert id="addImage" parameterType="com.xrb.entity.Image">
+  	insert into imageTable(imageId, imageName, imageType, imageSize, imageTime, userId) values(#{imageId},#{imageName},#{imageType},#{imageSize},#{imageTime},#{userId})
+  </insert>
+  
+  <update id="updateImage" parameterType="com.xrb.entity.Image">
+	update imageTable set imageName=#{imageName},imageShow=#{imageShow},imageValid=#{imageValid} where imageId = #{imageId}
+  </update>
+  
+  <update id="renameImage" parameterType="com.xrb.entity.Image">
+	update imageTable set imageName=#{imageName} where imageId = #{imageId}
+  </update>
+  
+  <update id="reImageShow" parameterType="com.xrb.entity.Image">
+	update imageTable set imageShow=#{imageShow} where imageId = #{imageId}
+  </update>  
+  
+  <delete id="deleteImage" parameterType="java.lang.String">
+  	delete from imageTable where imageId = #{imageId}
+  </delete>
+
+  
+</mapper>

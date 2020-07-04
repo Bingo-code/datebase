@@ -1,0 +1,147 @@
+#loginRegister{
+	background-image: url(../image/1_lr.png);
+	background-size: cover;
+	margin: 100px auto;
+	width: 450px;
+	height: 400px;
+	border: 1px solid lightblue;
+	box-shadow: 0 0 5px blue;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: .2s;
+	position: relative;
+	/* left: 50%;
+	top: 50%;
+	margin-top: -200px;
+	margin-left: -225px; */
+}
+#loginRegister span{
+	width: 223px;
+	height: 48px;
+	text-align: center;
+	background-color: rgba(180,255,180,0.1);
+	border: 1px solid rgba(255,255,255,0.2);
+	border-radius: 10px;
+	font-weight: lighter;
+	font-size: 30px;
+	color: white;
+	line-height: 48px;
+	cursor: default;
+}
+#loginRegister span.hover{
+	background-color:rgba(60,255,131,0.4);
+}
+#loginRegister input{
+	background-color: rgba(255,255,255,0.4);
+	width: 300px;
+	height: 40px;
+	border: 1px solid rgba(255,255,255,0.2);
+	border-radius: 3px;
+	font-size: 18px;
+}
+#loginRegister label{
+	height: 20px;
+	border-radius: 3px;
+	line-height: 20px;
+	font-size: 14px;
+	background-color: rgba(255,255,255,0.4);
+	color: rgba(255,0,0,0.6);
+}
+#loginRegister button{
+	width: 302px;
+	height: 44px;
+	border: 1px solid rgba(255,255,255,0.2);
+	background-color: rgba(48,131,255,0.4);
+	border-radius: 3px;
+	font-weight: lighter;
+	font-size: 24px;
+	color: white;
+	transition: .2s;
+}
+
+#loginRegister .left{
+	
+	position: absolute;
+	left: 0px;
+	top:0px;
+}
+#loginRegister .right{
+	position: absolute;
+	left: 225px;
+	top:0px;
+}
+#loginRegister .info{
+	width: 448px;
+	height: 348px;
+	border: 1px solid rgba(255,255,255,0.2);
+	position: absolute;
+	left: 0px;
+	top:50px;
+	border-radius: 10px;
+}
+#login .name{
+	position: absolute;
+	left: 75px;
+	top:65px;
+}
+#login .pwd{
+	position: absolute;
+	left: 75px;
+	top:135px;
+}
+#login .lInfo{
+	position: absolute;
+	left: 75px;
+	top: 205px;
+}
+#login .lg{
+	position: absolute;
+	left: 75px;
+	top:240px;
+}
+
+#loginRegister input:hover{
+	background-color: rgba(255,255,255,0.6);
+}
+
+#loginRegister button:hover{
+	background-color: rgba(52,135,255,0.6);
+	cursor: pointer;
+}
+
+#loginRegister .chosen{
+	background-color: rgba(52,135,255,0.6);
+	color: white;
+}
+#register{
+	display: none;
+}
+#register .rName{
+	position: absolute;
+	left: 75px;
+	top:45px;
+}
+#register .rPwd{
+	position: absolute;
+	left: 75px;
+	top:105px;
+}
+#register .rAgainPwd{
+	position: absolute;
+	left: 75px;
+	top:165px;
+}
+#register .rInfo{
+	position: absolute;
+	left: 75px;
+	top: 225px;
+}
+#register .rg{
+	position: absolute;
+	left: 75px;
+	top:255px;
+}
+
+
+
+

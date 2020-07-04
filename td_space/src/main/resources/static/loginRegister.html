@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="/td_space/css/lr.css"/>
+<script type="text/javascript" src="/td_space/js/jquery.js"></script>
+<script type="text/javascript" src="/td_space/js/layer.js"></script>
+<script type="text/javascript" src="/td_space/js/lr.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".rg").click(function(){
+			var name = $(".rName").val();
+			var pwd = $(".rPwd").val();
+			var againPwd = $(".rAgainPwd").val();
+			var userInfo = "userName="+name+"&userPwd="+pwd;
+			$("#loginRegister .rInfo").css("display","block");
+			setTimeout(function(){
+				$("#loginRegister .rInfo").css("display","none");
+			},1000);
+			if(name == "" || name.indexOf(" ") != -1){
+				$("#loginRegister .rInfo").html("账号名不可以为空");
+			}else{
+				if(pwd == ""){
+					$("#loginRegister .rInfo").html("密码不可以为空");
+				}else if(pwd!=againPwd){
+					$("#loginRegister .rInfo").html("两次密码不相同");
+				}else{
+					$.post("/td_space/lr/register", userInfo)
+				}
+			}
+			
+			
+		})
+	})
+	
+	
+
+</script>
+</head>
+<body>
+	
+	<div id="loginRegister">
+		<span class="left chosen">登录</span>
+		<span class="right">注册</span>
+		
+		<div id="login" class="info">
+			<form action="/td_space/lr/login" method="post"
+				onsubmit="return checkPwd()">
+				<input class="name" type="text" name="userName"
+					placeholder="用户名/邮箱/手机号码" value="" />
+				<input class="pwd" type="password" name="userPwd" placeholder="密码" />
+				<label class="lInfo" th:text="${lInfo}"></label>
+				<button class="lg" type="submit">登录</button>
+			</form>
+		</div>
+		<div id="register" class="info">
+			<form action="/td_space/lr/register" method="post"
+				onsubmit="return checkRPwd()">
+				<input class="rName" type="text" name="userName"
+					placeholder="用户名/邮箱/手机号码" value="" />
+				<input class="rPwd" type="password" name="userPwd" placeholder="密码" />
+				<input class="rAgainPwd" type="password" placeholder="确认密码" />
+				<label class="rInfo"></label>
+				<button class="rg" type="submit">注册</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
